@@ -5,9 +5,10 @@ import { Server } from "socket.io";
 import { createServer } from "http";
 
 import { corsOptions, connectToDb, initFirebase } from "./config/index.js";
-import { userRoutes } from "./controllers/user.controller.js";
+
 import { errorHandler } from "./middleware/error.middleware.js";
 import { timeLogger } from "./utils/timeLogger.js";
+import { userRoutes } from "./routes/user.routes.js";
 
 const app = express();
 const server = createServer(app);

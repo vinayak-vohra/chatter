@@ -39,6 +39,7 @@ export async function authenticate(req, _, next) {
     // save error in request and throw this error in handler
     // error middleware will catch and send appropriate response
     req.error = error;
+    console.log(error);
   }
 
   // move on to next middleware
