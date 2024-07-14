@@ -33,3 +33,8 @@ async function handler(apiCall: ApiCallback) {
       )
     );
 }
+
+export const getUserInfo = (token: string) =>
+  handler(() =>
+    api.get("/user/info", { headers: { Authorization: `Bearer ${token}` } })
+  );

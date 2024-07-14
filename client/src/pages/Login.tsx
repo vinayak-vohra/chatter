@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { useShallow } from "zustand/react/shallow";
 
 import chat from "../assets/chat.svg";
 import logo from "../assets/logo.svg";
@@ -13,6 +15,8 @@ import { FormValues, FormVariant } from "../types/Form";
 
 import GoogleSignInButton from "../components/buttons/GoogleSignIn";
 import FormInput from "../components/inputs/FormInput";
+import { useAppStore } from "../context";
+import errorLogger from "../utils/errorLogger";
 
 // for component to switch form type
 const switcher = {
@@ -26,6 +30,10 @@ const switcher = {
   },
 };
 
+// Default photoURL for email sign-in
+const photoURL =
+  "https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg";
+
 export default function Login() {
   const {
     register,
@@ -38,7 +46,18 @@ export default function Login() {
       password: "",
     },
   });
+
+  const { user, loading, setLoading, setUpdateParams } = useAppStore(
+    useShallow((state) => ({
+      user: state.user,
+      loading: state.loading,
+      setLoading: state.setLoading,
+      setUpdateParams: state.setUpdateParams,
+    }))
+  );
+
   const [variant, setVariant] = useState<FormVariant>("Sign In");
+  const nav = useNavigate();
 
   function toggleVariant(): void {
     (document.getElementById("form")! as HTMLFormElement).reset();
@@ -46,15 +65,23 @@ export default function Login() {
   }
 
   async function onSubmit(data: FormValues) {
+    setLoading(true);
     try {
-      if (variant === "Sign In")
+      if (variant === "Sign In") {
         await signInWithEmailAndPassword(auth, data.email, data.password);
-      else
+      } else {
+        setUpdateParams({ displayName: data.name, photoURL });
         await createUserWithEmailAndPassword(auth, data.email, data.password);
+      }
     } catch (error: any) {
-      console.log(error);
+      errorLogger(error);
+      setLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (user) nav("/chats", { replace: true });
+  }, [user]);
 
   return (
     <div className="flex h-dvh">
@@ -122,8 +149,9 @@ export default function Login() {
             }
           />
 
-          <button type="submit" className="btn btn-primary">
-            {variant}
+          <button type="submit" className="btn btn-primary" disabled={loading}>
+            {loading && <span className="loading loading-dots loading-md" />}
+            {!loading && variant}
           </button>
 
           <div className="divider -my-0 text-neutral">or</div>
