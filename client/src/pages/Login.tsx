@@ -1,12 +1,18 @@
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 import chat from "../assets/chat.svg";
 import logo from "../assets/logo.svg";
 
+import { auth } from "../config/firebase";
 import { FormValues, FormVariant } from "../types/Form";
-import FormInput from "../components/inputs/FormInput";
+
 import GoogleSignInButton from "../components/buttons/GoogleSignIn";
+import FormInput from "../components/inputs/FormInput";
 
 // for component to switch form type
 const switcher = {
@@ -39,8 +45,16 @@ export default function Login() {
     setVariant(switcher[variant].alt as FormVariant);
   }
 
-  const onSubmit: SubmitHandler<FormValues> = (data) =>
-    console.log(variant, data);
+  async function onSubmit(data: FormValues) {
+    try {
+      if (variant === "Sign In")
+        await signInWithEmailAndPassword(auth, data.email, data.password);
+      else
+        await createUserWithEmailAndPassword(auth, data.email, data.password);
+    } catch (error: any) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="flex h-dvh">
