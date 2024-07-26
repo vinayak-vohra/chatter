@@ -3,7 +3,7 @@ import { FirebaseError } from "firebase/app";
 import { toast } from "sonner";
 
 export default function errorLogger(error: any) {
-  let message; // error toast message to be displayed
+  let message = error?.message; // error toast message to be displayed
 
   // firebase error
   if (error instanceof FirebaseError) {

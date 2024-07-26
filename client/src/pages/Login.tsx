@@ -80,7 +80,7 @@ export default function Login() {
   }
 
   useEffect(() => {
-    if (user) nav("/chats", { replace: true });
+    if (user) nav("/", { replace: true });
   }, [user]);
 
   return (
