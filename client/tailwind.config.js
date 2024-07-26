@@ -1,3 +1,5 @@
+import { light } from "./src/themes";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: "class",
@@ -9,5 +11,6 @@ export default {
       },
     },
   },
+  daisyui: { themes: [{ light }] },
   plugins: [require("daisyui")],
 };
