@@ -1,6 +1,7 @@
 import firebase from "firebase-admin";
 
 import ApiError from "../classes/ApiError.class.js";
+import { User } from "../models/user.model.js";
 
 /**
  *
@@ -21,20 +22,11 @@ export async function authenticate(req, _, next) {
     const accessToken = authorization.split(" ")[1];
 
     // verify access token and get user details
-    const {
-      name,
-      email,
-      uid,
-      picture: photoURL,
-    } = await firebase.auth().verifyIdToken(accessToken);
+    const { uid } = await firebase.auth().verifyIdToken(accessToken);
+    const user = await User.findOne({ uid });
 
     // save user details for next middleware/handler
-    req.user = {
-      name,
-      email,
-      uid,
-      photoURL,
-    };
+    req.user = user;
   } catch (error) {
     // save error in request and throw this error in handler
     // error middleware will catch and send appropriate response

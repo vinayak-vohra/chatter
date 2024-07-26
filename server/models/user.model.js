@@ -35,6 +35,7 @@ const userSchema = new mongoose.Schema(
     // - friendlist
     // - requestlist
     // - blocklist
+    friends: [{ type: mongoose.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
