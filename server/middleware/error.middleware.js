@@ -12,21 +12,22 @@ import ApiError from "../classes/ApiError.class.js";
  */
 export async function errorHandler(error, _req, res, _next) {
   // error is not ApiError
-  if (!error instanceof ApiError) {
+  if (!(error instanceof ApiError)) {
+    let status, message;
     // Mongoose Error
     if (error instanceof MongooseError) {
-      error.status = 400;
-      error.message = error.name;
+      status = 400;
+      message = error.name;
     }
 
     // Firebase Error
-    if (error instanceof FirebaseAppError) {
-      error.status = 403;
-      error.message = error.code;
+    else if (error instanceof FirebaseAppError) {
+      status = 403;
+      message = error.code;
     }
 
     // create ApiError object
-    error = new ApiError(...error);
+    error = new ApiError(status, message, [], error.stack);
   }
 
   const response = {
@@ -36,6 +37,8 @@ export async function errorHandler(error, _req, res, _next) {
     // send error stack in dev mode
     ...(process.env.NODE_ENV === "development" ? { stack: error.stack } : {}),
   };
+
+  if (process.env.NODE_ENV === "development") console.log(error);
 
   return res.status(error.status).json(response);
 }
