@@ -38,3 +38,6 @@ export const getUserInfo = (token: string) =>
   handler(() =>
     api.get("/user/info", { headers: { Authorization: `Bearer ${token}` } })
   );
+
+export const searchUsers = (query: string, signal: AbortSignal) =>
+  handler(() => api.get(`/user/search?query=${query}`, { signal }));
