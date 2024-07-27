@@ -22,8 +22,16 @@ export async function authenticate(req, _, next) {
     const accessToken = authorization.split(" ")[1];
 
     // verify access token and get user details
-    const { uid } = await firebase.auth().verifyIdToken(accessToken);
-    const user = await User.findOne({ uid });
+    const {
+      uid,
+      name,
+      email,
+      picture: photoURL
+    } = await firebase.auth().verifyIdToken(accessToken);
+    let user = await User.findOne({ uid });
+
+    // new registration
+    if (!user) user = { uid, name, email, photoURL };
 
     // save user details for next middleware/handler
     req.user = user;

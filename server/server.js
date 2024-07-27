@@ -21,6 +21,7 @@ const io = new Server(server, {
 
 app.use(cors(corsOptions));
 app.use(mw());
+app.use(express.json())
 
 // make io available everywhere
 app.set("io", io);
