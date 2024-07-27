@@ -12,7 +12,6 @@ import logo from "../../assets/logo.svg";
 import NavButton from "../buttons/NavButton";
 import { auth } from "../../config/firebase";
 import { useAppStore } from "../../context";
-import { User } from "../../types/User";
 import { Pages } from "../../types/Pages";
 import { usePageStore } from "../../context/page.slice";
 import React from "react";
@@ -22,7 +21,7 @@ type Tabs =
   | "spacer"
   | {
       page: Pages;
-      renderIcon: (user?: User | null) => JSX.Element;
+      renderIcon: (src: string) => JSX.Element;
       link: string;
     };
 
@@ -47,8 +46,8 @@ const tabs: Tabs[] = [
   "divider",
   {
     page: "Profile",
-    renderIcon: (user?: User | null) => (
-      <img src={user?.photoURL} alt="user" className="rounded-full p-1" />
+    renderIcon: (src: string) => (
+      <img src={src} alt="user" className="rounded-full p-1" />
     ),
     link: "/profile",
   },
@@ -77,7 +76,7 @@ export default function SideNav() {
                 selected={page === tab.page}
                 onClick={() => nav(tab.link)}
               >
-                {tab.renderIcon(user)}
+                {tab.renderIcon(user?.photoURL || "")}
               </NavButton>
             </span>
           )}

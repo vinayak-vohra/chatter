@@ -5,3 +5,10 @@ export type User = {
   email: string;
   photoURL: string;
 };
+
+export type FriendRequest = {
+  from: string;
+  to: string;
+  _id: string;
+  createdAt: string;
+};

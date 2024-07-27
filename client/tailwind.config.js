@@ -9,6 +9,13 @@ export default {
       fontFamily: {
         Playwrite: ["'Playwrite ES Deco'"],
       },
+      animation: { shrink: "shrink 0.3s ease-in-out forwards" },
+      keyframes: {
+        shrink: {
+          "0%": { transform: "scale(1)" },
+          "100%": { transform: "scale(0)" },
+        },
+      },
     },
   },
   daisyui: { themes: [{ light }] },
