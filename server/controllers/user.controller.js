@@ -84,7 +84,7 @@ export const fetchUserInfo = wrapper(async (req, res) => {
   }
 
   // find user in db
-  let user = await User.findOne({ uid: req.user.uid });
+  let user = await User.findOne({ uid: req.user.uid }).populate("friends","uid name email photoURL");
 
   // uid not found, create new user
   if (!user) {

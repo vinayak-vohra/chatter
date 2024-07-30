@@ -1,9 +1,13 @@
-export type User = {
+export type UserBase = {
   _id: string;
   uid: string;
   name: string;
   email: string;
   photoURL: string;
+};
+
+export type User = UserBase & {
+  friends: UserBase[];
 };
 
 export type FriendRequest = {

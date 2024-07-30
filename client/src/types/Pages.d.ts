@@ -1,1 +1,1 @@
-export type Pages = "Chats" | "Groups" | "Search" | "Profile";
+export type Pages = "Chats" | "Groups" | "Search" | "New Chat" | "Profile";
