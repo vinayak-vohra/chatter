@@ -7,7 +7,7 @@ function SearchInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
       placeholder="Search..."
       {...props}
       className={clsx(
-        "input input-sm",
+        "input input-sm bg-opacity-25 bg-base-200",
         "outline-none focus:outline-none",
         "input-bordered focus:border-primary",
         "duration-300",

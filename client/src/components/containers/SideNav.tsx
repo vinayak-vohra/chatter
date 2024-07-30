@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import {
   FaComments,
   FaMagnifyingGlass,
+  FaPlus,
   FaRightFromBracket,
   FaUserGroup,
 } from "react-icons/fa6";
@@ -42,6 +43,11 @@ const tabs: Tabs[] = [
     link: "/search",
   },
   "divider",
+  {
+    page: "New Chat",
+    renderIcon: () => <FaPlus size={16} className="text-neutral" />,
+    link: "/new-chat",
+  },
   "spacer",
   "divider",
   {
@@ -60,7 +66,7 @@ export default function SideNav() {
   const nav = useNavigate();
 
   return (
-    <div className=" w-12 h-dvh gap-2 p-2 py-5 flex flex-col items-center">
+    <div className=" w-12 h-dvh bg-base-200 gap-2 p-2 py-5 flex flex-col items-center">
       <img src={logo} />
       <div className="mt-5" />
       {tabs.map((tab, i) => (
@@ -69,7 +75,7 @@ export default function SideNav() {
           {tab === "divider" && <div className="divider m-0" />}
           {typeof tab === "object" && (
             <span
-              className="tooltip tooltip-right tooltip-accent"
+              className="tooltip tooltip-right tooltip-neutral"
               data-tip={tab.page}
             >
               <NavButton

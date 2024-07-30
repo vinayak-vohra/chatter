@@ -1,20 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { FaCheck, FaPlus, FaUserPlus, FaXmark } from "react-icons/fa6";
+import { FaCheck, FaUserPlus, FaXmark } from "react-icons/fa6";
 
-import newchat from "../../../assets/newchat.svg";
-import empty from "../../../assets/void.svg";
+import newchat from "../../assets/newchat.svg";
+import empty from "../../assets/void.svg";
 
-import ViewContainer from "../ViewContainer";
-import PlaceHolder from "../PlaceHolder";
-
-import { searchUsers, friendRequest } from "../../../api";
-import { usePageStore } from "../../../context/page.slice";
-import ChatLoader from "../../loader/ChatLoader";
-import { FriendRequest, User } from "../../../types/User";
-import errorLogger from "../../../utils/errorLogger";
-import { Link } from "react-router-dom";
-import IconButton from "../../buttons/IconButton";
+import { FriendRequest, User } from "../../types/User";
+import { usePageStore } from "../../context/page.slice";
+import { friendRequest, searchUsers } from "../../api";
+import PlaceHolder from "../containers/PlaceHolder";
+import ChatLoader from "../loader/ChatLoader";
+import errorLogger from "../../utils/errorLogger";
+import IconButton from "../buttons/IconButton";
+import SearchInput from "../inputs/SearchInput";
 
 let controller: AbortController;
 let timeout: NodeJS.Timeout;
@@ -56,30 +54,11 @@ export default function Search() {
     setPage("Search");
   }, []);
   return (
-    <ViewContainer
-      title="Search"
-      value={query}
-      onChange={handleChange}
-      actionButtons={
-        <div className="dropdown dropdown-bottom dropdown-end">
-          <button role="button" className="btn btn-sm btn-square btn-ghost">
-            <FaPlus />
-          </button>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu bg-base-100 w-40 rounded-lg z-[1] p-2 shadow"
-          >
-            <li>
-              <Link to="/new-chat">New Chat</Link>
-            </li>
-            <li>
-              <Link to="/new-group-chat">New Group Chat</Link>
-              
-            </li>
-          </ul>
-        </div>
-      }
-    >
+    <>
+      <div className="flex items-center justify-between">
+        <h3 className="text-2xl font-semibold font-Playwrite">Search</h3>
+      </div>
+      <SearchInput onChange={handleChange} />
       {
         // Case 1: Waiting for input
         !data && query.length < 3 && (
@@ -107,7 +86,7 @@ export default function Search() {
             <UserCard key={user.uid} user={user} />
           ))
       }
-    </ViewContainer>
+    </>
   );
 }
 
@@ -169,10 +148,10 @@ function UserCard({ user }: { user: SearchedUser }) {
     >
       <img src={user.photoURL} className="w-1/6 rounded-full" />
       <div className="flex flex-col grow overflow-x-hidden">
-        <span className="text-sm text-neutral-600 text-ellipsis text-nowrap overflow-hidden">
+        <span className="text-sm text-neutral text-ellipsis text-nowrap overflow-hidden">
           {user.name}
         </span>
-        <span className="text-xs text-neutral text-ellipsis text-nowrap overflow-hidden">
+        <span className="text-xs text-neutral/80 text-ellipsis text-nowrap overflow-hidden">
           {user.email}
         </span>
       </div>
@@ -185,7 +164,7 @@ function UserCard({ user }: { user: SearchedUser }) {
                 <IconButton
                   loading={loading}
                   Icon={<FaCheck />}
-                  type="success"
+                  className="text-success hover:bg-success"
                   onClick={() => acceptFriendRequest(isReceiver)}
                 />
               )}
@@ -193,7 +172,7 @@ function UserCard({ user }: { user: SearchedUser }) {
               <IconButton
                 loading={loading}
                 Icon={<FaXmark />}
-                type="error"
+                className="text-error hover:bg-error"
                 onClick={() => cancelFriendRequest(isReceiver, setReceiver)}
               />
             </>
@@ -205,7 +184,7 @@ function UserCard({ user }: { user: SearchedUser }) {
             <IconButton
               loading={loading}
               Icon={<FaXmark />}
-              type="error"
+              className="text-error hover:bg-error"
               onClick={() => cancelFriendRequest(isSender, setSender)}
             />
           )
@@ -216,7 +195,7 @@ function UserCard({ user }: { user: SearchedUser }) {
             <IconButton
               loading={loading}
               Icon={<FaUserPlus />}
-              type="primary"
+              className="text-primary hover:bg-secondary"
               onClick={() => sendFriendRequest(user._id)}
             />
           )
@@ -226,4 +205,4 @@ function UserCard({ user }: { user: SearchedUser }) {
   );
 }
 
-// function 
+// function
