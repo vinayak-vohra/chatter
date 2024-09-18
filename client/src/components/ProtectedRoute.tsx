@@ -2,7 +2,9 @@ import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 import { useAppStore } from "../context";
-import SideNav from "./chatnav/SideNav";
+import SideNav from "./containers/SideNav";
+import SidePane from "./containers/SidePane";
+import ChatContainer from "./containers/ChatContainer";
 
 export default function ProtectedRoute() {
   const user = useAppStore((state) => state.user);
@@ -15,7 +17,10 @@ export default function ProtectedRoute() {
   return (
     <div className="h-dvh w-dvw flex overflow-hidden">
       <SideNav />
-      <Outlet />
+      <SidePane>
+        <Outlet />
+      </SidePane>
+      <ChatContainer />
     </div>
   );
 }

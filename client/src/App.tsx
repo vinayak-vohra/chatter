@@ -6,8 +6,10 @@ import { auth } from "./config/firebase";
 import { useAppStore } from "./context";
 import Loader from "./components/loader/PageLoader";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Chats from "./components/chatnav/Chat";
-import Search from "./components/chatnav/Search";
+import Chats from "./components/sidepanes/Chats";
+import Search from "./components/sidepanes/Search";
+import NewChats from "./components/sidepanes/NewChat";
+
 
 export default function App() {
   const setUser = useAppStore((state) => state.setUser);
@@ -25,10 +27,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<ProtectedRoute />}>
           <Route index element={<Navigate to="/chats" replace />} />
-          <Route path="/chats" element={<Chats />} />
-          <Route path="/groups" element={<>Groups page</>} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/profile" element={<>Profile page</>} />
+          <Route path="/chats/:id?" element={<Chats />} />
+          <Route path="/groups/:id?" element={<>Groups page</>} />
+          <Route path="/search/:id?" element={<Search />} />
+          <Route path="/profile/:id?" element={<>Profile page</>} />
+          <Route path="/new-chat/:id?" element={<NewChats />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>

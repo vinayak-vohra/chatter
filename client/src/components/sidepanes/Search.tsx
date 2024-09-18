@@ -204,5 +204,3 @@ function UserCard({ user }: { user: SearchedUser }) {
     </div>
   );
 }
-
-// function

@@ -57,3 +57,9 @@ export const friendRequest = {
   accept: acceptFriendRequest,
   cancel: cancelFriendRequest,
 };
+
+export const getChatId = (userId: string) =>
+  handler(() => api.get(`/chat/chatId?userId=${userId}`));
+
+export const getChatById = (chatId: string) =>
+  handler(() => api.get(`/chat/?chatId=${chatId}`));
