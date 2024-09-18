@@ -9,6 +9,7 @@ import { corsOptions, connectToDb, initFirebase } from "./config/index.js";
 import { errorHandler } from "./middleware/error.middleware.js";
 import { timeLogger } from "./utils/timeLogger.js";
 import { userRoutes } from "./routes/user.routes.js";
+import { chatRoutes } from "./routes/chat.routes.js";
 
 const app = express();
 const server = createServer(app);
@@ -27,6 +28,7 @@ app.use(express.json())
 app.set("io", io);
 
 app.use("/user", userRoutes);
+app.use("/chat", chatRoutes);
 app.use(errorHandler);
 
 const port = process.env.PORT || 4001; // use 4001 if not provided
