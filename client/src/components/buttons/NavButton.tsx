@@ -9,9 +9,9 @@ export default function NavButton({ selected, ...props }: NavButtonProps) {
     <button
       {...props}
       className={clsx(
-        "btn btn-sm btn-ghost btn-square",
-        "border-none hover:bg-opacity-5",
-        selected && "shadow-lg bg-white",
+        "btn btn-sm btn-square",
+        "border-none hover:bg-opacity-75",
+        selected && "shadow-lg bg-base-100",
         props.className
       )}
       onClick={props.onClick}
